@@ -8,12 +8,12 @@ namespace BarcodeReaderSimpleSample;
 
 public partial class CameraPage : ContentPage, ICapturedResultReceiver, ICompletionListener
 {
-    CameraEnhancer enhancer;
+    public static CameraEnhancer enhancer;
     CaptureVisionRouter router;
 
     public CameraPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         enhancer = new CameraEnhancer();
         router = new CaptureVisionRouter();
         router.SetInput(enhancer);
@@ -27,7 +27,7 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
         {
             enhancer.SetCameraView(camera);
             enhancer.Open();
-        }  
+        }
     }
 
     protected override async void OnAppearing()
@@ -44,10 +44,12 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
         router?.StopCapturing();
     }
 
+
+
     [Obsolete]
     public void OnDecodedBarcodesReceived(DecodedBarcodesResult result)
     {
-        if (result != null && result.Items!= null && result.Items.Count > 0)
+        if (result != null && result.Items != null && result.Items.Count > 0)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {

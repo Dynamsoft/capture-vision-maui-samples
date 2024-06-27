@@ -2,6 +2,9 @@
 
 This repository contains multiple samples that demonstrate how to use the [Dynamsoft Capture Vision](https://www.dynamsoft.com/capture-vision/docs/core/introduction/) MAUI Edition.
 
+- [User Guide](https://www.dynamsoft.com/barcode-reader/docs/mobile/programming/maui/user-guide.html)
+- [API Reference](https://www.dynamsoft.com/barcode-reader/docs/mobile/programming/maui/api-reference/)
+
 ## System Requirements
 
 ### .Net
@@ -29,21 +32,13 @@ This repository contains multiple samples that demonstrate how to use the [Dynam
 
 ## Install the Dependencies
 
-### Online installation
-
 In the **NuGet Package Manager>Manage Packages for Solution** of your project, search for **Dynamsoft.BarcodeReaderBundle.Maui**. Select it and click **install**.
-
-### Offline installation
-
-Navigate to **Tools -> Options -> NuGet Package Manager -> Package Sources**, click the **+** to add a new package source, then fill in the **Name** (e.g., local-nuget) and the absolute path to the NuGet package location. Click **OK** to confirm.
-
-In the **NuGet Package Manager > Manage Packages for Solution** section of your project, switch the package source to `local-nuget`, search for **Dynamsoft.BarcodeReader.Maui**, **Dynamsoft.CaptureVisionRouter.Maui**, and **Dynamsoft.Core.Maui**, and click **install**.
 
 ### Build and Run
 
 Select your device and run the project.
 
-> Note: If you are runing Android on Visual Studio Windows, you have to mannually exclude iOS and Windows platforms. Otherwise, the Visual Studio will report type or namespace not found errors.
+> Note: If you are running Android on Visual Studio Windows, you have to mannually exclude iOS and Windows platforms. Otherwise, the Visual Studio will report type or namespace not found errors.
 
 ![Exclude iOS and Windows from targets](assets/maui-exclude.png)
 
