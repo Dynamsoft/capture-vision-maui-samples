@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BarcodeReaderSimpleSample.MainPage">
 
-     <StackLayout>
+    <VerticalStackLayout>
         <Button
                 x:Name="CameraBtn"
                 Text="Start Scanning"
@@ -11,7 +11,12 @@
                 Clicked="OnCameraClicked"
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="CenterAndExpand"/>
-    </StackLayout>
+        <Label 
+            x:Name="errorMessage"
+            TextColor="Red"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
 
 </ContentPage>
 

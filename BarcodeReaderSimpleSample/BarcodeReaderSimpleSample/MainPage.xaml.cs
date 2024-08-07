@@ -5,13 +5,13 @@ namespace BarcodeReaderSimpleSample;
 public partial class MainPage : ContentPage, ILicenseVerificationListener
 {
 
-	public MainPage()
-	{
-		InitializeComponent();
+    public MainPage()
+    {
+        InitializeComponent();
 
-		// Initialize license for Dynamsoft Barcode Reader.
-		// The license string here is a time-limited trial license. Note that network connection is required for this license to work.
-		// You can also request a 30-day trial license via the Request a Trial License link: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&utm_source=github&package=maui
+        // Initialize the license.
+        // The license string here is a trial license. Note that network connection is required for this license to work.
+        // You can request an extension via the following link: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&utm_source=samples&package=mobile
         LicenseManager.InitLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", this);
     }
 
@@ -19,13 +19,17 @@ public partial class MainPage : ContentPage, ILicenseVerificationListener
     {
         await Navigation.PushAsync(new CameraPage());
     }
-    
+
     public void OnLicenseVerified(bool isSuccess, string message)
     {
         if (!isSuccess)
         {
-            Debug.WriteLine(message);
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                errorMessage.Text = "License initialization failed: " + message;
+            });
         }
+
     }
 }
 

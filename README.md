@@ -44,9 +44,8 @@ Select your device and run the project.
 
 ## License
 
-- A one-day trial license is available by default for every new device to try Dynamsoft SDKs.
-- You can request a 30-day trial license via the [Request a Trial License](https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&utm_source=github&package=maui) link. Offline trial license is also available by [contacting us](https://www.dynamsoft.com/company/contact/).
+- You can request a 30-day trial license via the [Request a Trial License](https://www.dynamsoft.com/customer/license/trialLicense?product=cvs&utm_source=samples&package=maui) link.
 
-## Contact
+## Contact Us
 
-https://www.dynamsoft.com/contact/
+For any questions or feedback, you can either [contact us](https://www.dynamsoft.com/company/contact/) or [submit an issue](https://github.com/Dynamsoft/capture-vision-maui-samples/issues/new).
