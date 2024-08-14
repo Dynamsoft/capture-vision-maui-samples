@@ -30,15 +30,47 @@ This repository contains multiple samples that demonstrate how to use the [Dynam
 | ----------- | ----------- |
 | `BarcodeReaderSimpleSample` | This is a sample that illustrates the simplest way to recognize barcodes from video streaming with Dynamsoft Capture Vision MAUI SDK. |
 
-## Install the Dependencies
+## Installation
+
+### Visual Studio for Mac
 
 In the **NuGet Package Manager>Manage Packages for Solution** of your project, search for **Dynamsoft.BarcodeReaderBundle.Maui**. Select it and click **install**.
+
+### Visual Studio for Windows
+
+You have to Add the library via the project file and do some additional steps to complete the installation.
+
+1. Add the library in the project file:
+
+    ```xml
+    <Project Sdk="Microsoft.NET.Sdk">
+        ...
+        <ItemGroup>
+            ...
+            <PackageReference Include="Dynamsoft.BarcodeReaderBundle.Maui" Version="10.2.1101" />
+        </ItemGroup>
+    </Project>
+    ```
+
+2. Open the **Package Manager Console** and run the following commands:
+
+    ```bash
+    dotnet build
+    ```
+
+> Note:
+>
+> - Windows system have a limitation of 260 characters in the path. If you don't use console to install the package, you will receive error "Could not find a part of the path 'C:\Users\admin\.nuget\packages\dynamsoft.imageprocessing.ios\2.2.300\lib\net7.0-ios16.1\Dynamsoft.ImageProcessing.iOS.resources\DynamsoftImageProcessing.xcframework\ios-arm64\dSYMs\DynamsoftImageProcessing.framework.dSYM\Contents\Resources\DWARF\DynamsoftImageProcessing'"
+> - The library only support Android & iOS platform. Be sure that you remove the other platforms like Windows, maccatalyst, etc.
 
 ### Build and Run
 
 Select your device and run the project.
 
-> Note: If you are running Android on Visual Studio Windows, you have to mannually exclude iOS and Windows platforms. Otherwise, the Visual Studio will report type or namespace not found errors.
+> Note:
+>
+> - Please follow the installation steps above to complete the installation before running the project. Visual Studio for mac will not install the library automatically when you build the project.
+> - If you are running Android only on Visual Studio Windows, please mannually exclude iOS and Windows platforms. Otherwise, the Visual Studio will report type or namespace not found errors.
 
 ![Exclude iOS and Windows from targets](assets/maui-exclude.png)
 
