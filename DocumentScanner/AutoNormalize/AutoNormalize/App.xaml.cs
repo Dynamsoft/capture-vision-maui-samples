@@ -1,4 +1,4 @@
-﻿namespace BarcodeReaderSimpleSample;
+﻿namespace AutoNormalize;
 
 public partial class App : Application
 {

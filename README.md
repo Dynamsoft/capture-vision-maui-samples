@@ -1,10 +1,11 @@
 # Dynamsoft Capture Vision samples for MAUI edition
 
-This repository contains multiple samples that demonstrate how to use the [Dynamsoft Capture Vision](https://www.dynamsoft.com/capture-vision/docs/core/introduction/) MAUI Edition.
+This repository contains multiple samples that demonstrate how to use the [Dynamsoft Capture Vision](https://www.dynamsoft.com/capture-vision/docs/mobile/programming/maui/) MAUI Edition.
 
-- [User Guide](https://www.dynamsoft.com/barcode-reader/docs/mobile/programming/maui/user-guide.html)
-- [API Reference](https://www.dynamsoft.com/barcode-reader/docs/mobile/programming/maui/api-reference/)
-
+- Document Scanner
+  - [User Guide](https://www.dynamsoft.com/document-normalizer/docs/mobile/programming/maui/user-guide.html)
+  - [API Reference](https://www.dynamsoft.com/capture-vision/docs/mobile/programming/maui/api-reference/)
+  
 ## System Requirements
 
 ### .Net
@@ -28,55 +29,15 @@ This repository contains multiple samples that demonstrate how to use the [Dynam
 
 | Sample Name | Description |
 | ----------- | ----------- |
-| `BarcodeReaderSimpleSample` | This is a sample that illustrates the simplest way to recognize barcodes from video streaming with Dynamsoft Capture Vision MAUI SDK. |
+| `DocumentScanner/AutoNormalize` | This is a sample that illustrates the simplest way to detect and normalize documents from video streaming automatically. |
 
 ## Installation
 
-### Visual Studio for Mac
-
-In the **NuGet Package Manager>Manage Packages for Solution** of your project, search for **Dynamsoft.BarcodeReaderBundle.Maui**. Select it and click **install**.
-
-### Visual Studio for Windows
-
-You have to Add the library via the project file and do some additional steps to complete the installation.
-
-1. Add the library in the project file:
-
-    ```xml
-    <Project Sdk="Microsoft.NET.Sdk">
-        ...
-        <ItemGroup>
-            ...
-            <PackageReference Include="Dynamsoft.BarcodeReaderBundle.Maui" Version="10.2.1101" />
-        </ItemGroup>
-    </Project>
-    ```
-
-2. Open the **Package Manager Console** and run the following commands:
-
-    ```bash
-    dotnet build
-    ```
-
-> Note:
->
-> - Windows system have a limitation of 260 characters in the path. If you don't use console to install the package, you will receive error "Could not find a part of the path 'C:\Users\admin\.nuget\packages\dynamsoft.imageprocessing.ios\2.2.300\lib\net7.0-ios16.1\Dynamsoft.ImageProcessing.iOS.resources\DynamsoftImageProcessing.xcframework\ios-arm64\dSYMs\DynamsoftImageProcessing.framework.dSYM\Contents\Resources\DWARF\DynamsoftImageProcessing'"
-> - The library only support Android & iOS platform. Be sure that you remove the other platforms like Windows, maccatalyst, etc.
-
-### Build and Run
-
-Select your device and run the project.
-
-> Note:
->
-> - Please follow the installation steps above to complete the installation before running the project. Visual Studio for mac will not install the library automatically when you build the project.
-> - If you are running Android only on Visual Studio Windows, please mannually exclude iOS and Windows platforms. Otherwise, the Visual Studio will report type or namespace not found errors.
-
-![Exclude iOS and Windows from targets](assets/maui-exclude.png)
+- [Document Scanner](https://www.dynamsoft.com/document-normalizer/docs/mobile/programming/maui/user-guide.html#installation)
 
 ## License
 
-- You can request a 30-day trial license via the [Request a Trial License](https://www.dynamsoft.com/customer/license/trialLicense?product=cvs&utm_source=samples&package=maui) link.
+- You can request a 30-day trial license via the [Request a Trial License](https://www.dynamsoft.com/customer/license/trialLicense?product=dcv&utm_source=samples&package=mobile) link.
 
 ## Contact Us
 

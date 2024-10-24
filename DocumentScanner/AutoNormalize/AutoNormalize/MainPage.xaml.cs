@@ -1,6 +1,5 @@
 ﻿using Dynamsoft.License.Maui;
-using System.Diagnostics;
-namespace BarcodeReaderSimpleSample;
+namespace AutoNormalize;
 
 public partial class MainPage : ContentPage, ILicenseVerificationListener
 {
@@ -11,7 +10,7 @@ public partial class MainPage : ContentPage, ILicenseVerificationListener
 
         // Initialize the license.
         // The license string here is a trial license. Note that network connection is required for this license to work.
-        // You can request an extension via the following link: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&utm_source=samples&package=mobile
+        // You can request an extension via the following link: https://www.dynamsoft.com/customer/license/trialLicense?product=dcv&utm_source=samples&package=mobile
         LicenseManager.InitLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", this);
     }
 

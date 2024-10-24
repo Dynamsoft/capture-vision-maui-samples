@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace BarcodeReaderSimpleSample;
+namespace AutoNormalize;
 
 [Application]
 public class MainApplication : MauiApplication

@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace BarcodeReaderSimpleSample;
+namespace AutoNormalize;
 
 public class Program
 {
