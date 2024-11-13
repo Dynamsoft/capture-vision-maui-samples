@@ -29,7 +29,8 @@ This repository contains multiple samples that demonstrate how to use the [Dynam
 
 | Sample Name | Description |
 | ----------- | ----------- |
-| `DocumentScanner/AutoNormalize` | This is a sample that illustrates the simplest way to detect and normalize documents from video streaming automatically. |
+| `DocumentScanner/AutoNormalize` | This sample demonstrates the simplest way to automatically detect and normalize documents from video streaming. |
+| `DocumentScanner/EditAndNormalize` |This sample demonstrates how to detect a document, adjust its boundaries, and normalize it from video streaming. |
 
 ## Installation
 
