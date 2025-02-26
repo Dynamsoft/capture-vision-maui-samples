@@ -2,10 +2,9 @@
 
 This repository contains multiple samples that demonstrate how to use the [Dynamsoft Capture Vision](https://www.dynamsoft.com/capture-vision/docs/mobile/programming/maui/) MAUI Edition.
 
-- Document Scanner
-  - [User Guide](https://www.dynamsoft.com/document-normalizer/docs/mobile/programming/maui/user-guide.html)
-  - [API Reference](https://www.dynamsoft.com/capture-vision/docs/mobile/programming/maui/api-reference/)
-  
+- [User Guide](https://www.dynamsoft.com/capture-vision/docs/mobile/programming/maui/user-guide/)
+- [API Reference](https://www.dynamsoft.com/capture-vision/docs/mobile/programming/maui/api-reference/)
+
 ## System Requirements
 
 ### .Net
@@ -31,10 +30,40 @@ This repository contains multiple samples that demonstrate how to use the [Dynam
 | ----------- | ----------- |
 | `DocumentScanner/AutoNormalize` | This sample demonstrates the simplest way to automatically detect and normalize documents from video streaming. |
 | `DocumentScanner/EditAndNormalize` |This sample demonstrates how to detect a document, adjust its boundaries, and normalize it from video streaming. |
+| `VINScanner` | Scan the VIN code from a barcode or a text line and extract the vehicle information. |
 
 ## Installation
 
-- [Document Scanner](https://www.dynamsoft.com/document-normalizer/docs/mobile/programming/maui/user-guide.html#installation)
+### Visual Studio for Mac
+
+In the **NuGet Package Manager>Manage Packages for Solution** of your project, search for **Dynamsoft.CaptureVisionBundle.Maui**. Select it and click **install**.
+
+### Visual Studio for Windows
+
+You have to Add the library via the project file and do some additional steps to complete the installation.
+
+1. Add the library in the project file:
+
+    ```xml
+    <Project Sdk="Microsoft.NET.Sdk">
+        ...
+        <ItemGroup>
+            ...
+            <PackageReference Include="Dynamsoft.CaptureVisionBundle.Maui" Version="2.6.1000" />
+        </ItemGroup>
+    </Project>
+    ```
+
+2. Open the **Package Manager Console** and run the following commands:
+
+    ```bash
+    dotnet build
+    ```
+
+> Note:
+>
+> - Windows system have a limitation of 260 characters in the path. If you don't use console to install the package, you will receive error "Could not find a part of the path 'C:\Users\admin\.nuget\packages\dynamsoft.imageprocessing.ios\2.2.300\lib\net7.0-ios16.1\Dynamsoft.ImageProcessing.iOS.resources\DynamsoftImageProcessing.xcframework\ios-arm64\dSYMs\DynamsoftImageProcessing.framework.dSYM\Contents\Resources\DWARF\DynamsoftImageProcessing'"
+> - The library only support Android & iOS platform. Be sure that you remove the other platforms like Windows, maccatalyst, etc.
 
 ## License
 
