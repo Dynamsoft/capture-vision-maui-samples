@@ -9,7 +9,7 @@ This repository contains multiple samples that demonstrate how to use the [Dynam
 
 ### .Net
 
-- .NET 7.0 and above.
+- .NET 8.0 and above.
 
 ### Android
 
@@ -20,7 +20,7 @@ This repository contains multiple samples that demonstrate how to use the [Dynam
 
 ### iOS
 
-- Supported OS: **iOS 11.0** or higher.
+- Supported OS: **iOS 13.0** or higher.
 - Supported ABI: **arm64** and **x86_64**.
 - Development Environment: Visual Studio 2022 for Mac and Xcode 14.3+.
 
@@ -28,9 +28,8 @@ This repository contains multiple samples that demonstrate how to use the [Dynam
 
 | Sample Name | Description |
 | ----------- | ----------- |
-| `DocumentScanner/AutoNormalize` | This sample demonstrates the simplest way to automatically detect and normalize documents from video streaming. |
-| `DocumentScanner/EditAndNormalize` |This sample demonstrates how to detect a document, adjust its boundaries, and normalize it from video streaming. |
-| `VINScanner` | Scan the VIN code from a barcode or a text line and extract the vehicle information. |
+| `ScanDocument` | This sample demonstrates how to automatically detect and normalize documents in video streams while also adjusting their boundaries.  |
+| `ScanVIN` | Scan the VIN code from a barcode or a text line and extract the vehicle information. |
 
 ## Installation
 
@@ -49,7 +48,7 @@ You have to Add the library via the project file and do some additional steps to
         ...
         <ItemGroup>
             ...
-            <PackageReference Include="Dynamsoft.CaptureVisionBundle.Maui" Version="2.6.1000" />
+            <PackageReference Include="Dynamsoft.CaptureVisionBundle.Maui" Version="3.0.3100" />
         </ItemGroup>
     </Project>
     ```
