@@ -3,28 +3,34 @@ using Dynamsoft.CameraEnhancer.Maui;
 using Dynamsoft.CaptureVisionRouter.Maui;
 using Dynamsoft.License.Maui;
 using Dynamsoft.DocumentNormalizer.Maui;
+using Dynamsoft.Utility.Maui;
 
 namespace ScanDocument;
 
-public partial class CameraPage : ContentPage, ICapturedResultReceiver, ICompletionListener, ILicenseVerificationListener
+public partial class CameraPage : ContentPage, ICapturedResultReceiver, ICompletionListener,
+    ILicenseVerificationListener
 {
-	CameraEnhancer enhancer;
+    CameraEnhancer enhancer;
     CaptureVisionRouter router;
     bool isClicked;
-	public CameraPage()
-	{
-		InitializeComponent();
-		// Initialize the license.
+
+    public CameraPage()
+    {
+        InitializeComponent();
+        // Initialize the license.
         // The license string here is a trial license. Note that network connection is required for this license to work.
         // You can request an extension via the following link: https://www.dynamsoft.com/customer/license/trialLicense?product=ddn&utm_source=samples&package=mobile
         LicenseManager.InitLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", this);
-		enhancer = new CameraEnhancer();
+        enhancer = new CameraEnhancer();
         router = new CaptureVisionRouter();
         router.SetInput(enhancer);
         router.AddResultReceiver(this);
-	}
+        var filter = new MultiFrameResultCrossFilter();
+        filter.EnableResultCrossVerification(EnumCapturedResultItemType.DetectedQuad, true);
+        router.AddResultFilter(filter);
+    }
 
-	protected override void OnHandlerChanged()
+    protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
         if (this.Handler != null)
@@ -50,19 +56,17 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
 
     public void OnProcessedDocumentResultReceived(ProcessedDocumentResult result)
     {
-        if (isClicked)
+        if (!(result?.DetectedQuadResultItems?.Length > 0)) return;
+        if (result.DetectedQuadResultItems[0].CrossVerificationStatus == EnumCrossVerificationStatus.Passed || isClicked)
         {
             isClicked = false;
-            if (result?.DetectedQuadResultItems?.Length > 0)
+            var data = router.GetIntermediateResultManager().GetOriginalImage(result.OriginalImageHashId);
+            if (data != null)
             {
-                var data = router.GetIntermediateResultManager().GetOriginalImage(result.OriginalImageHashId);
-                if (data != null)
+                MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    MainThread.BeginInvokeOnMainThread(async () =>
-                    {
-                        await Navigation.PushAsync(new EditorPage(data, result.DetectedQuadResultItems));
-                    });
-                }
+                    await Navigation.PushAsync(new EditorPage(data, result.DetectedQuadResultItems));
+                });
             }
         }
     }
@@ -71,20 +75,17 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
     {
         isClicked = true;
     }
-	
-	public void OnLicenseVerified(bool isSuccess, string message)
+
+    public void OnLicenseVerified(bool isSuccess, string message)
     {
         if (!isSuccess)
         {
-			Console.WriteLine("License initialization failed: " + message);
+            Console.WriteLine("License initialization failed: " + message);
         }
     }
 
     public void OnFailure(int errorCode, string errorMessage)
     {
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            DisplayAlert("Error", errorMessage, "OK");
-        });
+        MainThread.BeginInvokeOnMainThread(() => { DisplayAlert("Error", errorMessage, "OK"); });
     }
 }

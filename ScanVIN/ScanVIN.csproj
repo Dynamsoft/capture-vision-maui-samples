@@ -46,7 +46,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Dynamsoft.CaptureVisionBundle.Maui" Version="3.0.3100" />
+		<PackageReference Include="Dynamsoft.CaptureVisionBundle.Maui" Version="3.0.5100" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 	</ItemGroup>
