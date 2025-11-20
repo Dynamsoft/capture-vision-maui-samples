@@ -5,7 +5,7 @@
              x:Class="ScanDocument.CameraPage"
              Title="CameraPage">
 <Grid>
-    <dynamsoft:CameraView x:Name="camera"
+    <dynamsoft:CameraView x:Name="CameraView"
                           HorizontalOptions="Fill"
                           VerticalOptions="Fill" />
                           

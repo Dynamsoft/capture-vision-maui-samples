@@ -10,9 +10,9 @@ namespace ScanDocument;
 public partial class CameraPage : ContentPage, ICapturedResultReceiver, ICompletionListener,
     ILicenseVerificationListener
 {
-    CameraEnhancer enhancer;
-    CaptureVisionRouter router;
-    bool isClicked;
+    private readonly CameraEnhancer _camera;
+    private readonly CaptureVisionRouter _router;
+    private bool _isClicked;
 
     public CameraPage()
     {
@@ -21,13 +21,13 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
         // The license string here is a trial license. Note that network connection is required for this license to work.
         // You can request an extension via the following link: https://www.dynamsoft.com/customer/license/trialLicense?product=ddn&utm_source=samples&package=mobile
         LicenseManager.InitLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", this);
-        enhancer = new CameraEnhancer();
-        router = new CaptureVisionRouter();
-        router.SetInput(enhancer);
-        router.AddResultReceiver(this);
+        _camera = new CameraEnhancer();
+        _router = new CaptureVisionRouter();
+        _router.SetInput(_camera);
+        _router.AddResultReceiver(this);
         var filter = new MultiFrameResultCrossFilter();
-        filter.EnableResultCrossVerification(EnumCapturedResultItemType.DetectedQuad, true);
-        router.AddResultFilter(filter);
+        filter.EnableResultCrossVerification(EnumCapturedResultItemType.DeskewedImage, true);
+        _router.AddResultFilter(filter);
     }
 
     protected override void OnHandlerChanged()
@@ -35,7 +35,7 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
         base.OnHandlerChanged();
         if (this.Handler != null)
         {
-            enhancer.SetCameraView(camera);
+            _camera.SetCameraView(CameraView);
         }
     }
 
@@ -43,37 +43,39 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
     {
         base.OnAppearing();
         await Permissions.RequestAsync<Permissions.Camera>();
-        enhancer?.Open();
-        router?.StartCapturing(EnumPresetTemplate.PT_DETECT_DOCUMENT_BOUNDARIES, this);
+        _camera.Open();
+        _router.StartCapturing(EnumPresetTemplate.PT_DETECT_AND_NORMALIZE_DOCUMENT, this);
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        enhancer?.Close();
-        router?.StopCapturing();
+        _camera.Close();
+        _router.StopCapturing();
     }
 
     public void OnProcessedDocumentResultReceived(ProcessedDocumentResult result)
     {
-        if (!(result?.DetectedQuadResultItems?.Length > 0)) return;
-        if (result.DetectedQuadResultItems[0].CrossVerificationStatus == EnumCrossVerificationStatus.Passed || isClicked)
+        if (!(result?.DeskewedImageResultItems?.Length > 0)) return;
+        if (result.DeskewedImageResultItems[0].CrossVerificationStatus == EnumCrossVerificationStatus.Passed || _isClicked)
         {
-            isClicked = false;
-            var data = router.GetIntermediateResultManager().GetOriginalImage(result.OriginalImageHashId);
-            if (data != null)
+            _isClicked = false;
+            var originalImage = _router.GetIntermediateResultManager().GetOriginalImage(result.OriginalImageHashId);
+            var deskewedImage = result.DeskewedImageResultItems[0].ImageData;
+            var sourceDeskewedQuad = result.DeskewedImageResultItems[0].SourceDeskewQuad;
+            _router.StopCapturing();
+            if (originalImage != null && deskewedImage != null)
             {
-                MainThread.BeginInvokeOnMainThread(async () =>
-                {
-                    await Navigation.PushAsync(new EditorPage(data, result.DetectedQuadResultItems));
-                });
+                MainThread.BeginInvokeOnMainThread(() =>
+                    Navigation.PushAsync(new ImagePage(originalImage, deskewedImage, sourceDeskewedQuad))
+                );
             }
         }
     }
 
-    void OnCaptureBtnClicked(System.Object sender, System.EventArgs e)
+    private void OnCaptureBtnClicked(Object sender, EventArgs e)
     {
-        isClicked = true;
+        _isClicked = true;
     }
 
     public void OnLicenseVerified(bool isSuccess, string message)

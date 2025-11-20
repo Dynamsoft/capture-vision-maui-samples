@@ -8,9 +8,9 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
 	}
 
-	private async void OnButtonClicked(object sender, EventArgs e)
+	private void OnButtonClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new CameraPage());
+        Navigation.PushAsync(new CameraPage());
     }
 }
 

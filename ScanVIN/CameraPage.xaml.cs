@@ -9,7 +9,7 @@ namespace ScanVIN;
 
 public partial class CameraPage : ContentPage, ICapturedResultReceiver, ICompletionListener, ILicenseVerificationListener
 {
-	CameraEnhancer enhancer;
+	CameraEnhancer camera;
     CaptureVisionRouter router;
 	public CameraPage()
 	{
@@ -18,9 +18,9 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
         // The license string here is a trial license. Note that network connection is required for this license to work.
         // You can request an extension via the following link: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&utm_source=samples&package=mobile
         LicenseManager.InitLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", this);
-		enhancer = new CameraEnhancer();
+        camera = new CameraEnhancer();
         router = new CaptureVisionRouter();
-        router.SetInput(enhancer);
+        router.SetInput(camera);
         router.AddResultReceiver(this);
         var filter = new MultiFrameResultCrossFilter();
         filter.EnableResultCrossVerification(EnumCapturedResultItemType.Barcode, true);
@@ -31,11 +31,11 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
 	protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
-        if (this.Handler != null)
+        if (Handler != null)
         {
-            enhancer.SetCameraView(camera);
+            camera.SetCameraView(CameraView);
             var region = new DMRect(0.1f, 0.4f, 0.9f, 0.6f, true);
-            enhancer.SetScanRegion(region);
+            camera.SetScanRegion(region);
         }
     }
 
@@ -43,14 +43,14 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
     {
         base.OnAppearing();
         await Permissions.RequestAsync<Permissions.Camera>();
-        enhancer?.Open();
+        camera?.Open();
         router?.StartCapturing("ReadVIN", this);
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        enhancer?.Close();
+        camera?.Close();
         router?.StopCapturing();
     }
 
@@ -62,7 +62,8 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
             if (result.Items.Length > 1) {
                 foreach (var item in result.Items)
                 {
-                    if (item.TaskName == "parse-vin-barcode") {
+                    //Information extracted from a barcode should have a higher priority
+                    if (item.TaskName.Contains("vin-barcode")) {
                         parsedResultItem = item;
                         break;
                     }
@@ -71,7 +72,7 @@ public partial class CameraPage : ContentPage, ICapturedResultReceiver, IComplet
             var dictionary = ConvertToVINDictionary(parsedResultItem);
             if (dictionary != null) {
                 router?.StopCapturing();
-                enhancer?.ClearBuffer();
+                camera?.ClearBuffer();
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
                     await Navigation.PushAsync(new ResultPage(dictionary));

@@ -1,51 +1,50 @@
 using Dynamsoft.Core.Maui;
-using Dynamsoft.DocumentNormalizer.Maui;
 using Dynamsoft.CameraEnhancer.Maui;
+using Dynamsoft.Utility.Maui;
 
 namespace ScanDocument;
 
 public partial class EditorPage : ContentPage
 {
-    ImageData data;
-    DetectedQuadResultItem[] items;
+    private ImageData _originalImage;
+    private Quadrilateral _deskewSourceQuad;
+    private readonly Action<ImageData, Quadrilateral> _returnResult;
 
-    public EditorPage(ImageData data, DetectedQuadResultItem[] items)
+    public EditorPage(ImageData originalImage, Quadrilateral deskewSourceQuad, Action<ImageData, Quadrilateral> returnResult)
 	{
 		InitializeComponent();
-        this.data = data;
-        this.items = items;
+        _originalImage = originalImage;
+        _deskewSourceQuad = deskewSourceQuad;
+        _returnResult = returnResult;
 	}
 
     protected override void OnHandlerChanged()
     {
-        SetUp();
+        EditorView.OriginalImage = _originalImage;
+        var drawingLayer = EditorView.GetDrawingLayer(EnumDrawingLayerId.DLI_DDN);
+        var drawingItems = new List<DrawingItem> { new QuadDrawingItem(_deskewSourceQuad) };
+        drawingLayer.DrawingItems = drawingItems;
     }
 
-    void SetUp()
+    private void OnBtnConfirmClicked(Object sender, EventArgs e)
     {
-        editorView.OriginalImage = data;
-        var layer = editorView.GetDrawingLayer(EnumDrawingLayerId.DLI_DDN);
-        IList<DrawingItem> drawingItems = new List<DrawingItem>();
-        foreach (DetectedQuadResultItem item in this.items)
+        var drawingLayer = EditorView.GetDrawingLayer(EnumDrawingLayerId.DLI_DDN);
+        var drawingItem = EditorView.GetSelectedDrawingItem();
+        if (drawingItem == null && drawingLayer.DrawingItems.Count > 0)
         {
-            drawingItems.Add(new QuadDrawingItem(item.Location));
+            drawingItem = drawingLayer.DrawingItems[0];
         }
-        layer.DrawingItems = drawingItems;
-    }
-
-    void OnNormalizeBtnClicked(System.Object sender, System.EventArgs e)
-    {
-        var item = editorView.GetSelectedDrawingItem();
-        if (item == null)
+        var selectedQuad = (drawingItem as QuadDrawingItem)!.Quad;
+        var processor = new ImageProcessor();
+        try
         {
-            item = editorView.GetDrawingLayer(EnumDrawingLayerId.DLI_DDN).DrawingItems[0];
+            var croppedImage = processor.CropAndDeskewImage(_originalImage, selectedQuad)!;
+            _returnResult.Invoke(croppedImage, selectedQuad);
+            Navigation.PopAsync();
         }
-        if (item?.MediaType == EnumDrawingItemMediaType.DIMT_QUADRILATERAL)
+        catch (CoreException exception)
         {
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                await Navigation.PushAsync(new ImagePage(data, ((QuadDrawingItem)item).Quad));
-            });
+            DisplayAlert("", "The selected area is close to a triangle, please change it to a quadrilateral.", "OK");
         }
     }
 }
