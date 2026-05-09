@@ -29,7 +29,6 @@ This repository contains multiple samples that demonstrate how to use the [Dynam
 | Sample Name | Description |
 | ----------- | ----------- |
 | `ScanDocument` | This sample demonstrates how to automatically detect and normalize documents in video streams while also adjusting their boundaries.  |
-| `ScanVIN` | Scan the VIN code from a barcode or a text line and extract the vehicle information. |
 
 ## Installation
 
@@ -48,7 +47,7 @@ You have to Add the library via the project file and do some additional steps to
         ...
         <ItemGroup>
             ...
-            <PackageReference Include="Dynamsoft.CaptureVisionBundle.Maui" Version="3.0.3100" />
+            <PackageReference Include="Dynamsoft.CaptureVisionBundle.Maui" Version="3.4.1200" />
         </ItemGroup>
     </Project>
     ```
